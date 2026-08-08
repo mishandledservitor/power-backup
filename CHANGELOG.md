@@ -4,6 +4,12 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Ran `/speckit-analyze` on 001-rsync-sync-gui: found FR-013 (general cancel) had no task
+  coverage, and FR-011's nested/equal-path rule wasn't enforced inside `Job.validate()`. Fixed
+  both in tasks.md (new T018 cancel task; T005 now depends on T007's check).
+- Generated a safety/data-integrity requirements-quality checklist
+  (`specs/001-rsync-sync-gui/checklists/safety.md`) via `/speckit-checklist`, focused on
+  destructive-sync requirement gaps ahead of implementation.
 - Generated tasks.md for 001-rsync-sync-gui: 34 tasks across setup, foundational, three user-story
   phases, and polish. MVP = User Story 1 (one-off sync); mirror mode not exposed until User Story
   3 (preview/confirm) lands.

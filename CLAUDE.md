@@ -70,8 +70,10 @@ Last updated: 2026-08-08
 Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python + PySide6,
 `.app` packaging, safety-by-default). Baseline spec written for feature `001-rsync-sync-gui`
 (`specs/001-rsync-sync-gui/spec.md`), quality checklist passed. Implementation plan, research,
-data model, and quickstart written (`specs/001-rsync-sync-gui/`). tasks.md generated (34 tasks).
-Next: `/speckit-implement` (or `/speckit-analyze`/`/speckit-checklist` first, optionally).
+data model, and quickstart written (`specs/001-rsync-sync-gui/`). tasks.md generated and analyzed (35 tasks after `/speckit-analyze` fixes for FR-013/FR-011
+coverage gaps); a safety-focused requirements checklist was also generated
+(`specs/001-rsync-sync-gui/checklists/safety.md`) with 5 items flagged for review before coding.
+Next: `/speckit-implement`.
 
 - Full history: `CHANGELOG.md`.
 - If this section contradicts what you see in the repo, trust the repo and flag the mismatch.
