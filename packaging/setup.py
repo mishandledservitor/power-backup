@@ -11,6 +11,7 @@ DATA_FILES = []
 OPTIONS = {
     "argv_emulation": False,
     "packages": ["PySide6"],
+    "iconfile": "AppIcon.icns",
     "plist": {
         "CFBundleName": "Rsync Sync GUI",
         "CFBundleDisplayName": "Rsync Sync GUI",

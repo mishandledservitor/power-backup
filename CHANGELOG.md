@@ -4,6 +4,9 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Gave the `.app` a custom icon: `packaging/generate_icon.py` renders a two-folders + sync-arrows
+  glyph at all required resolutions and packs it into `packaging/AppIcon.icns` via `iconutil`;
+  wired into `packaging/setup.py` via `iconfile`.
 - Added an overall progress bar to the sync UI, parsed from macOS rsync's `--progress`
   `xfer#K, to-check=N/M` lines — user feedback that log lines scrolling by weren't clear progress
   during a long sync. New `parse_overall_progress()` in `rsync_runner.py`, 3 new unit tests
