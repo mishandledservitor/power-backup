@@ -66,8 +66,9 @@ deliberately, never because it looks like unused scaffolding.
 
 ## Current status
 
-Last updated: <date>
-<one or two lines: what exists so far, what's next>
+Last updated: 2026-08-08
+Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python + PySide6,
+`.app` packaging, safety-by-default). Next: `/speckit-specify` to write the baseline spec.
 
 - Full history: `CHANGELOG.md`.
 - If this section contradicts what you see in the repo, trust the repo and flag the mismatch.
