@@ -68,7 +68,8 @@ deliberately, never because it looks like unused scaffolding.
 
 Last updated: 2026-08-08
 Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python + PySide6,
-`.app` packaging, safety-by-default). Next: `/speckit-specify` to write the baseline spec.
+`.app` packaging, safety-by-default). Baseline spec written for feature `001-rsync-sync-gui`
+(`specs/001-rsync-sync-gui/spec.md`), quality checklist passed. Next: `/speckit-plan`.
 
 - Full history: `CHANGELOG.md`.
 - If this section contradicts what you see in the repo, trust the repo and flag the mismatch.
