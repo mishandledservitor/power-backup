@@ -71,7 +71,8 @@ Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python
 `.app` packaging, safety-by-default). Baseline spec written for feature `001-rsync-sync-gui`
 (`specs/001-rsync-sync-gui/spec.md`), quality checklist passed. Implementation plan, research,
 data model, and quickstart written (`specs/001-rsync-sync-gui/`). Implemented (`src/rsync_sync_gui/`): folder-picker sync, mirror-mode dry-run preview + confirm,
-cancel, JSON-backed saved jobs, and an overall progress bar. 37 tests pass
+cancel, JSON-backed saved jobs, and an overall progress bar; excludes macOS volume-metadata dirs
+(Spotlight/Trashes/etc.) from every sync. 38 tests pass
 (`pytest tests/unit tests/integration`). Run with `.venv/bin/python -m rsync_sync_gui`, or build
 the `.app` with `cd packaging && ../.venv/bin/python setup.py py2app` (verified working). All 34
 tasks in `specs/001-rsync-sync-gui/tasks.md` complete. App has a custom icon

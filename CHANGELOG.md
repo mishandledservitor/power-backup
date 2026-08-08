@@ -4,6 +4,11 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Excluded macOS volume-metadata directories (`.Spotlight-V100`, `.Trashes`, `.fseventsd`,
+  `.TemporaryItems`, `.DocumentRevisions-V100`, `.PKInstallSandboxManager*`, `.apdisk`) from every
+  sync. User feedback: syncing a whole external volume produced "Operation not permitted" warnings
+  for these system directories, which no regular user account can read and which are never worth
+  mirroring. 1 new unit test (38 total).
 - Gave the `.app` a custom icon: `packaging/generate_icon.py` renders a two-folders + sync-arrows
   glyph at all required resolutions and packs it into `packaging/AppIcon.icns` via `iconutil`;
   wired into `packaging/setup.py` via `iconfile`.
