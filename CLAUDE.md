@@ -71,11 +71,12 @@ Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python
 `.app` packaging, safety-by-default). Baseline spec written for feature `001-rsync-sync-gui`
 (`specs/001-rsync-sync-gui/spec.md`), quality checklist passed. Implementation plan, research,
 data model, and quickstart written (`specs/001-rsync-sync-gui/`). Implemented (`src/rsync_sync_gui/`): folder-picker sync, mirror-mode dry-run preview + confirm,
-cancel, JSON-backed saved jobs. 34 tests pass (`pytest tests/unit tests/integration`). Run with
-`.venv/bin/python -m rsync_sync_gui`. Not yet done: T033 (py2app `.app` build, documented in
-README.md but unverified) and the 13 lower-priority items still open in
-`specs/001-rsync-sync-gui/checklists/safety.md`. Next: verify the `.app` packaging, then a manual
-quickstart.md pass.
+cancel, JSON-backed saved jobs, and an overall progress bar. 37 tests pass
+(`pytest tests/unit tests/integration`). Run with `.venv/bin/python -m rsync_sync_gui`, or build
+the `.app` with `cd packaging && ../.venv/bin/python setup.py py2app` (verified working). All 34
+tasks in `specs/001-rsync-sync-gui/tasks.md` complete. Remaining: the 13 lower-priority items
+still open in `specs/001-rsync-sync-gui/checklists/safety.md` (accepted v1 gaps); a full manual
+quickstart.md pass hasn't been run.
 
 - Full history: `CHANGELOG.md`.
 - If this section contradicts what you see in the repo, trust the repo and flag the mismatch.

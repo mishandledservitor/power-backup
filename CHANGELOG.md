@@ -4,10 +4,15 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Added an overall progress bar to the sync UI, parsed from macOS rsync's `--progress`
+  `xfer#K, to-check=N/M` lines — user feedback that log lines scrolling by weren't clear progress
+  during a long sync. New `parse_overall_progress()` in `rsync_runner.py`, 3 new unit tests
+  (37 total).
+- Ran the py2app build (T033): `packaging/setup.py py2app` produces a working double-clickable
+  `Rsync Sync GUI.app` that launches and runs standalone. tasks.md now fully complete (34/34).
 - Implemented 001-rsync-sync-gui (33 of 34 tasks): PySide6 app with folder pickers, live-streamed
   rsync output, mirror-mode dry-run preview + confirm, cancel, and JSON-backed saved jobs.
-  34 tests pass (unit + integration against the real `rsync` binary). T033 (py2app `.app` build)
-  is documented in README.md but not yet run/verified — left unchecked in tasks.md.
+  34 tests pass (unit + integration against the real `rsync` binary).
 - Ran `/speckit-analyze` on 001-rsync-sync-gui: found FR-013 (general cancel) had no task
   coverage, and FR-011's nested/equal-path rule wasn't enforced inside `Job.validate()`. Fixed
   both in tasks.md (new T018 cancel task; T005 now depends on T007's check).

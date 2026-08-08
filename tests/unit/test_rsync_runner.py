@@ -1,6 +1,7 @@
 from rsync_sync_gui.services.rsync_runner import (
     RsyncProcess,
     build_argv,
+    parse_overall_progress,
     parse_preview_changes,
     parse_summary,
 )
@@ -80,6 +81,20 @@ def test_cancel_terminates_running_process(tmp_path):
 
     assert process.canceled is True
     assert process._process.poll() is not None  # process has exited
+
+
+def test_argv_includes_progress_flag():
+    argv = build_argv("/src", "/dst", mirror_enabled=False)
+    assert "--progress" in argv
+
+
+def test_parse_overall_progress_extracts_counts():
+    line = "        20971520 100%  420.15MB/s    0:00:00 (xfer#3, to-check=5/12)"
+    assert parse_overall_progress(line) == (3, 12)
+
+
+def test_parse_overall_progress_none_for_unrelated_line():
+    assert parse_overall_progress("some other output") is None
 
 
 def test_cancel_on_already_finished_process_is_a_noop(tmp_path):

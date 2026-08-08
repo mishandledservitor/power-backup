@@ -18,10 +18,15 @@ _BYTES_RE = re.compile(r"Total transferred file size:\s*([\d,]+)")
 _ITEMIZE_DELETE_RE = re.compile(r"^\*deleting\s+(.+)$")
 _ITEMIZE_CHANGE_RE = re.compile(r"^([<>c.*][fdLDS]\S{9})\s+(.+)$")
 
+# --progress per-file line, e.g.:
+#   "        20971520 100%  420.15MB/s    0:00:00 (xfer#3, to-check=5/12)"
+# xfer#K = files transferred so far, to-check=N/M = N files remain out of M scanned so far.
+_PROGRESS_RE = re.compile(r"xfer#(\d+),\s*to-check=(\d+)/(\d+)")
+
 
 def build_argv(source: str, destination: str, mirror_enabled: bool, dry_run: bool = False) -> list[str]:
     """Build an rsync argv list. Never returns a shell string."""
-    argv = ["rsync", "-a", "--itemize-changes", "--stats"]
+    argv = ["rsync", "-a", "--itemize-changes", "--stats", "--progress"]
     if mirror_enabled:
         argv.append("--delete")
     if dry_run:
@@ -83,6 +88,15 @@ def parse_preview_changes(output_lines: list[str]) -> list[PreviewChange]:
             change_type = "add" if flags.startswith(">f+") else "update"
             changes.append(PreviewChange(path=path.strip(), change_type=change_type))
     return changes
+
+
+def parse_overall_progress(line: str) -> tuple[int, int] | None:
+    """Parse a --progress line into (files_done, files_total), or None if not a progress line."""
+    m = _PROGRESS_RE.search(line)
+    if not m:
+        return None
+    xfer_count, _to_check, total = (int(g) for g in m.groups())
+    return xfer_count, total
 
 
 def parse_summary(output_lines: list[str]) -> tuple[int, int] | None:

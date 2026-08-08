@@ -210,7 +210,7 @@ sync, and saved/reusable jobs.
 
 - [X] T032 [P] Add a `README.md` (or extend the root one) documenting how to run the app in dev
       mode and how to build the `.app` bundle, based on quickstart.md
-- [ ] T033 Complete `packaging/setup.py` (started in T004) into a working py2app build producing a
+- [X] T033 Complete `packaging/setup.py` (started in T004) into a working py2app build producing a
       double-clickable `.app`, falling back to a PyInstaller spec per research.md if py2app proves
       incompatible with PySide6 during the build
 - [X] T034 [P] Add unit test coverage for the app-quit-during-sync edge case (T017) in
