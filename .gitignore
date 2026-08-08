@@ -68,3 +68,4 @@ build/
 .ruff_cache/
 .coverage
 htmlcov/
+packaging/AppIcon.iconset/
