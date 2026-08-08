@@ -4,6 +4,9 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Generated tasks.md for 001-rsync-sync-gui: 34 tasks across setup, foundational, three user-story
+  phases, and polish. MVP = User Story 1 (one-off sync); mirror mode not exposed until User Story
+  3 (preview/confirm) lands.
 - Wrote implementation plan for 001-rsync-sync-gui: PySide6 desktop app, subprocess-driven rsync
   runner, JSON job persistence, dry-run-based preview. See plan.md/research.md/data-model.md/
   quickstart.md.
