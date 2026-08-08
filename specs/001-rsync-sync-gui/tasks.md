@@ -32,12 +32,12 @@ Single project, per plan.md: `src/rsync_sync_gui/`, `tests/`, `packaging/` at re
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per plan.md: `src/rsync_sync_gui/{models,services,ui}/`,
+- [X] T001 Create project structure per plan.md: `src/rsync_sync_gui/{models,services,ui}/`,
       `tests/{unit,integration}/`, `packaging/`, each with `__init__.py` where it's a Python package
-- [ ] T002 Create `pyproject.toml` declaring the package, Python 3.11+ requirement, and
+- [X] T002 Create `pyproject.toml` declaring the package, Python 3.11+ requirement, and
       dependencies (`PySide6`) plus dev dependencies (`pytest`)
-- [ ] T003 [P] Configure linting/formatting (e.g. `ruff`) via `pyproject.toml` or `.ruff.toml`
-- [ ] T004 [P] Create `packaging/setup.py` with a py2app configuration stub for building the
+- [X] T003 [P] Configure linting/formatting (e.g. `ruff`) via `pyproject.toml` or `.ruff.toml`
+- [X] T004 [P] Create `packaging/setup.py` with a py2app configuration stub for building the
       `.app` bundle (per research.md's packaging decision), to be completed once the app entry
       point exists
 
@@ -52,26 +52,26 @@ subprocess runner, and the entities from data-model.md
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `Job` model (per data-model.md) in `src/rsync_sync_gui/models/job.py`:
+- [X] T005 Create `Job` model (per data-model.md) in `src/rsync_sync_gui/models/job.py`:
       `id`, `name`, `source`, `destination`, `mirror_enabled`, `created_at`, `updated_at`, plus a
       `validate()` method enforcing non-empty absolute paths, unique-name rules, and — reusing
       T007's `is_nested_or_equal()` check — rejecting a source/destination pair that are equal or
       nested (FR-011), so this rule holds for every `Job` regardless of whether it was built from
       the UI or loaded from `job_store.py` (depends on T007)
-- [ ] T006 [P] Create `SyncRun` model (per data-model.md) in
+- [X] T006 [P] Create `SyncRun` model (per data-model.md) in
       `src/rsync_sync_gui/models/sync_run.py`: fields `source`, `destination`, `mirror_enabled`,
       `status` (enum: pending/previewing/awaiting_confirmation/running/succeeded/failed/canceled),
       `preview_changes`, `output_lines`, `exit_code`, `error_message`, `summary`, plus the
       transition guard described in data-model.md's state machine (no skipping
       previewing/awaiting_confirmation when `mirror_enabled` is true)
-- [ ] T007 [P] Implement path validation in `src/rsync_sync_gui/services/path_validation.py`:
+- [X] T007 [P] Implement path validation in `src/rsync_sync_gui/services/path_validation.py`:
       `is_available(path)` (exists/mounted check), `is_nested_or_equal(source, destination)`
       (FR-011), returning clear reasons for failure, not booleans alone
-- [ ] T008 Implement the rsync subprocess runner in
+- [X] T008 Implement the rsync subprocess runner in
       `src/rsync_sync_gui/services/rsync_runner.py`: builds an argv list (never a shell string)
       from a `Job`/ad-hoc source+destination+`mirror_enabled`, runs it via `subprocess.Popen`
       with piped stdout/stderr, and yields output lines as they arrive (depends on T005, T006)
-- [ ] T009 Configure error handling/logging infrastructure in
+- [X] T009 Configure error handling/logging infrastructure in
       `src/rsync_sync_gui/services/__init__.py` (or a small `logging_config.py`): route rsync
       failures and unexpected exceptions to a readable message (FR-012), never a raw traceback in
       the UI
@@ -90,32 +90,32 @@ sync, and confirm the destination now contains the source's files (quickstart.md
 
 ### Tests for User Story 1
 
-- [ ] T010 [P] [US1] Unit test for argv building (non-mirror mode) in
+- [X] T010 [P] [US1] Unit test for argv building (non-mirror mode) in
       `tests/unit/test_rsync_runner.py`: asserts no delete-capable flags are ever included when
       `mirror_enabled` is `False`
-- [ ] T011 [P] [US1] Unit test for path validation in `tests/unit/test_path_validation.py`:
+- [X] T011 [P] [US1] Unit test for path validation in `tests/unit/test_path_validation.py`:
       unavailable-drive detection and nested/identical-path detection
-- [ ] T012 [P] [US1] Integration test for an end-to-end non-destructive sync in
+- [X] T012 [P] [US1] Integration test for an end-to-end non-destructive sync in
       `tests/integration/test_sync_flow.py`, using temp folders (no GUI required)
 
 ### Implementation for User Story 1
 
-- [ ] T013 [US1] Implement `main_window.py` in `src/rsync_sync_gui/ui/main_window.py`: source/
+- [X] T013 [US1] Implement `main_window.py` in `src/rsync_sync_gui/ui/main_window.py`: source/
       destination folder pickers (native dialog + drag-and-drop), a "Sync" action enabled once
       both are valid (uses T007's validation to block equal/nested paths before enabling Sync)
-- [ ] T014 [US1] Implement `progress_view.py` in `src/rsync_sync_gui/ui/progress_view.py`:
+- [X] T014 [US1] Implement `progress_view.py` in `src/rsync_sync_gui/ui/progress_view.py`:
       displays streamed rsync output live and a final success/error summary using `SyncRun`'s
       `output_lines`/`summary`/`error_message` (FR-004, FR-012)
-- [ ] T015 [US1] Run the rsync runner (T008) off the Qt main thread (`QThread`/`QRunnable`) from
+- [X] T015 [US1] Run the rsync runner (T008) off the Qt main thread (`QThread`/`QRunnable`) from
       `main_window.py`, wiring its streamed output into `progress_view.py` so the UI never blocks
       during a sync
-- [ ] T016 [US1] Implement `src/rsync_sync_gui/__main__.py` as the app entry point: constructs the
+- [X] T016 [US1] Implement `src/rsync_sync_gui/__main__.py` as the app entry point: constructs the
       `QApplication`, shows `main_window.py`, and is the target both `python -m rsync_sync_gui`
       and the packaged `.app` launch (FR-001)
-- [ ] T017 [US1] Handle app-quit during an in-progress sync in `main_window.py`/`__main__.py`:
+- [X] T017 [US1] Handle app-quit during an in-progress sync in `main_window.py`/`__main__.py`:
       warn the user and require confirmation before terminating a running rsync process (edge
       case from spec.md)
-- [ ] T018 [US1] Add a "Cancel" action to `progress_view.py` that is enabled only while a sync is
+- [X] T018 [US1] Add a "Cancel" action to `progress_view.py` that is enabled only while a sync is
       running: terminates the in-progress rsync subprocess (via T008's runner) and transitions
       `SyncRun.status` to `canceled` (FR-013) — distinct from and in addition to T017's app-quit
       handling (depends on T008, T014, T015)
@@ -136,29 +136,29 @@ explicitly confirmed (quickstart.md scenario 4).
 
 ### Tests for User Story 3
 
-- [ ] T019 [P] [US3] Unit test for argv building (mirror mode) in `tests/unit/test_rsync_runner.py`:
+- [X] T019 [P] [US3] Unit test for argv building (mirror mode) in `tests/unit/test_rsync_runner.py`:
       asserts delete-capable flags (e.g. `--delete`) are included only when `mirror_enabled` is
       `True`, and that a dry-run invocation always adds `--dry-run`
-- [ ] T020 [P] [US3] Unit test for dry-run output parsing in `tests/unit/test_rsync_runner.py`:
+- [X] T020 [P] [US3] Unit test for dry-run output parsing in `tests/unit/test_rsync_runner.py`:
       parses sample `rsync --dry-run --itemize-changes` output into `SyncRun.preview_changes`
       entries (`path`, `change_type` of add/update/delete)
-- [ ] T021 [P] [US3] Integration test for the full preview → cancel → no-changes path and
+- [X] T021 [P] [US3] Integration test for the full preview → cancel → no-changes path and
       preview → confirm → changes-applied path in `tests/integration/test_sync_flow.py`, using
       temp folders
 
 ### Implementation for User Story 3
 
-- [ ] T022 [US3] Extend `rsync_runner.py` (`src/rsync_sync_gui/services/rsync_runner.py`) with a
+- [X] T022 [US3] Extend `rsync_runner.py` (`src/rsync_sync_gui/services/rsync_runner.py`) with a
       `run_dry_run()` step that always precedes a real run when `mirror_enabled` is `True`,
       parsing output into `preview_changes` (depends on T008, T020)
-- [ ] T023 [US3] Implement `preview_dialog.py` in `src/rsync_sync_gui/ui/preview_dialog.py`:
+- [X] T023 [US3] Implement `preview_dialog.py` in `src/rsync_sync_gui/ui/preview_dialog.py`:
       displays `preview_changes` grouped by add/update/delete, with explicit Confirm and Cancel
       actions; Cancel guarantees no destination changes (FR-006)
-- [ ] T024 [US3] Add a mirror-mode toggle to `main_window.py`, defaulting to off (FR-005); wire
+- [X] T024 [US3] Add a mirror-mode toggle to `main_window.py`, defaulting to off (FR-005); wire
       Sync so that when mirror mode is on it drives `SyncRun` through
       `pending → previewing → awaiting_confirmation → running`, invoking `preview_dialog.py`
       before any real rsync run (depends on T013, T022, T023)
-- [ ] T025 [US3] Ensure the real (non-dry-run) sync started from `preview_dialog.py`'s Confirm
+- [X] T025 [US3] Ensure the real (non-dry-run) sync started from `preview_dialog.py`'s Confirm
       action reuses `progress_view.py` (T014) for live output, so the destructive run gets the
       same observability as a normal sync
 
@@ -177,25 +177,25 @@ appears and runs correctly against the same folders (quickstart.md scenario 2).
 
 ### Tests for User Story 2
 
-- [ ] T026 [P] [US2] Unit test for job persistence in `tests/unit/test_job_store.py`: save, load,
+- [X] T026 [P] [US2] Unit test for job persistence in `tests/unit/test_job_store.py`: save, load,
       rename, delete a job; unique-name validation (FR-009); round-trips through a real temp file
-- [ ] T027 [P] [US2] Integration test for the unavailable-job-folder flow in
+- [X] T027 [P] [US2] Integration test for the unavailable-job-folder flow in
       `tests/integration/test_sync_flow.py`: a saved job whose folder no longer exists is flagged,
       not silently run (quickstart.md scenario 3)
 
 ### Implementation for User Story 2
 
-- [ ] T028 [US2] Implement `job_store.py` in `src/rsync_sync_gui/services/job_store.py`: load/save
+- [X] T028 [US2] Implement `job_store.py` in `src/rsync_sync_gui/services/job_store.py`: load/save
       a list of `Job` entities to/from a single JSON file under
       `~/Library/Application Support/RsyncSyncGui/jobs.json` (per research.md), creating the
       directory/file on first run
-- [ ] T029 [US2] Add a job list panel to `main_window.py`: shows saved jobs, a "Save as job" action
+- [X] T029 [US2] Add a job list panel to `main_window.py`: shows saved jobs, a "Save as job" action
       from the current source/destination/mirror selection, and Rename/Delete actions (FR-007,
       FR-009), persisting through `job_store.py` (T028)
-- [ ] T030 [US2] On app start and on job-list refresh, run T007's availability check against each
+- [X] T030 [US2] On app start and on job-list refresh, run T007's availability check against each
       saved job's source/destination and visibly flag unavailable jobs in the job list (FR-010),
       without attempting to run them
-- [ ] T031 [US2] Wire "Run" on a saved job to reuse the existing sync flow (T013/T015 for
+- [X] T031 [US2] Wire "Run" on a saved job to reuse the existing sync flow (T013/T015 for
       non-mirror jobs, T024/T025 for mirror-enabled jobs) so a saved job behaves identically to an
       ad-hoc pair with the same options
 
@@ -208,14 +208,14 @@ sync, and saved/reusable jobs.
 
 **Purpose**: Improvements that span multiple user stories
 
-- [ ] T032 [P] Add a `README.md` (or extend the root one) documenting how to run the app in dev
+- [X] T032 [P] Add a `README.md` (or extend the root one) documenting how to run the app in dev
       mode and how to build the `.app` bundle, based on quickstart.md
 - [ ] T033 Complete `packaging/setup.py` (started in T004) into a working py2app build producing a
       double-clickable `.app`, falling back to a PyInstaller spec per research.md if py2app proves
       incompatible with PySide6 during the build
-- [ ] T034 [P] Add unit test coverage for the app-quit-during-sync edge case (T017) in
+- [X] T034 [P] Add unit test coverage for the app-quit-during-sync edge case (T017) in
       `tests/unit/test_rsync_runner.py` (process termination on cancel)
-- [ ] T035 Run the full quickstart.md validation checklist manually against the packaged `.app`
+- [X] T035 Run the full quickstart.md validation checklist manually against the packaged `.app`
 
 ---
 

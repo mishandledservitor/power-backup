@@ -4,6 +4,10 @@ Notable changes to this repo. Format: [Keep a Changelog](https://keepachangelog.
 
 ## [Unreleased]
 
+- Implemented 001-rsync-sync-gui (33 of 34 tasks): PySide6 app with folder pickers, live-streamed
+  rsync output, mirror-mode dry-run preview + confirm, cancel, and JSON-backed saved jobs.
+  34 tests pass (unit + integration against the real `rsync` binary). T033 (py2app `.app` build)
+  is documented in README.md but not yet run/verified — left unchecked in tasks.md.
 - Ran `/speckit-analyze` on 001-rsync-sync-gui: found FR-013 (general cancel) had no task
   coverage, and FR-011's nested/equal-path rule wasn't enforced inside `Job.validate()`. Fixed
   both in tasks.md (new T018 cancel task; T005 now depends on T007's check).

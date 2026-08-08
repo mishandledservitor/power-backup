@@ -70,10 +70,12 @@ Last updated: 2026-08-08
 Spec Kit initialized; constitution ratified (macOS rsync folder-sync GUI, Python + PySide6,
 `.app` packaging, safety-by-default). Baseline spec written for feature `001-rsync-sync-gui`
 (`specs/001-rsync-sync-gui/spec.md`), quality checklist passed. Implementation plan, research,
-data model, and quickstart written (`specs/001-rsync-sync-gui/`). tasks.md generated and analyzed (35 tasks after `/speckit-analyze` fixes for FR-013/FR-011
-coverage gaps); a safety-focused requirements checklist was also generated
-(`specs/001-rsync-sync-gui/checklists/safety.md`) with 5 items flagged for review before coding.
-Next: `/speckit-implement`.
+data model, and quickstart written (`specs/001-rsync-sync-gui/`). Implemented (`src/rsync_sync_gui/`): folder-picker sync, mirror-mode dry-run preview + confirm,
+cancel, JSON-backed saved jobs. 34 tests pass (`pytest tests/unit tests/integration`). Run with
+`.venv/bin/python -m rsync_sync_gui`. Not yet done: T033 (py2app `.app` build, documented in
+README.md but unverified) and the 13 lower-priority items still open in
+`specs/001-rsync-sync-gui/checklists/safety.md`. Next: verify the `.app` packaging, then a manual
+quickstart.md pass.
 
 - Full history: `CHANGELOG.md`.
 - If this section contradicts what you see in the repo, trust the repo and flag the mismatch.
