@@ -118,11 +118,19 @@ verifying nothing is deleted until the user explicitly confirms.
   without first saving a job.
 - **FR-004**: The system MUST show the user, in real time, what the current sync operation is
   doing (files being transferred, progress, and any errors) — not just a generic "working" state.
-- **FR-005**: The system MUST NOT remove or overwrite-destructively any file at the destination
-  unless the user has explicitly enabled a "mirror"/delete-capable mode for that job.
-- **FR-006**: When a destructive mode is enabled, the system MUST run and display a dry-run
-  preview of all additions, changes, and removals, and MUST require explicit user confirmation
-  before performing the real sync.
+- **FR-005**: The system MUST NOT remove any file at the destination, and MUST NOT overwrite a
+  destination file whose content differs from the source, unless the user has explicitly enabled
+  mirror mode for that job. Mirror mode's only additional effects, beyond a normal sync, are:
+  (a) deleting destination files/folders that do not exist at the source, and (b) overwriting
+  destination files that differ from the source. Mirror mode introduces no other destructive
+  behavior. This requirement governs deletion and mirror-triggered overwrites only — it does not
+  cover data loss from an interrupted transfer (see FR-012a).
+- **FR-006**: When mirror mode is enabled, every single run — with no exception, and no "remember
+  my choice" shortcut — MUST first execute a dry-run and display its full preview of additions,
+  changes, and removals, and MUST require a fresh explicit user confirmation each time before
+  performing the real sync. If the dry-run itself fails (e.g. rsync errors before any real change
+  is attempted), the system MUST treat this as a sync failure per FR-012 and MUST NOT proceed to
+  the real run.
 - **FR-007**: Users MUST be able to save a source/destination/options combination as a named,
   reusable job.
 - **FR-008**: Saved jobs MUST persist across app restarts.
@@ -133,6 +141,10 @@ verifying nothing is deleted until the user explicitly confirms.
   same as, or nested inside, the source (or vice versa).
 - **FR-012**: The system MUST surface any error reported by the underlying sync operation
   (non-zero exit, permission denied, out of space, connection lost) to the user in readable form.
+- **FR-012a**: A transfer interrupted mid-file (e.g. by disk-full or a disconnected drive) MAY
+  leave a partially-written file at the destination; this risk exists independent of mirror mode
+  and is not a "destructive" operation under FR-005. The system is not required to detect or roll
+  back partial writes beyond surfacing the failure per FR-012.
 - **FR-013**: The system MUST allow the user to cancel a sync that is in progress.
 
 ### Key Entities

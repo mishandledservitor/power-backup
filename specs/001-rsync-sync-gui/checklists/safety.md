@@ -13,11 +13,16 @@ implementation gate.
 
 ## Requirement Completeness
 
-- [ ] CHK001 Are the exact rsync-level consequences of "mirror mode" (which flags' effects it
+- [x] CHK001 Are the exact rsync-level consequences of "mirror mode" (which flags' effects it
       corresponds to — delete-on-destination, overwrite-on-conflict) fully enumerated anywhere in
       the spec, rather than left implicit in the term "mirror"? [Completeness, Spec §FR-005/FR-006]
-- [ ] CHK002 Does the spec define what happens if the dry-run preview itself fails (e.g. rsync
+      — Resolved: FR-005 now explicitly enumerates mirror mode's only two additional effects
+      (delete-on-destination, overwrite-on-conflict) and states it introduces no other destructive
+      behavior.
+- [x] CHK002 Does the spec define what happens if the dry-run preview itself fails (e.g. rsync
       errors during the dry-run pass, before any real changes)? [Gap, Spec §FR-006]
+      — Resolved: FR-006 now states a failed dry-run is treated as a sync failure per FR-012, and
+      the system MUST NOT proceed to the real run.
 - [ ] CHK003 Are requirements defined for what the user sees if the *set of changes* differs
       between the dry-run preview and the real run (e.g. the destination changed in between)?
       [Gap, Coverage]
@@ -42,15 +47,20 @@ implementation gate.
 
 ## Requirement Consistency
 
-- [ ] CHK009 Do FR-005 ("MUST NOT remove... unless mirror mode enabled") and the Edge Cases
+- [x] CHK009 Do FR-005 ("MUST NOT remove... unless mirror mode enabled") and the Edge Cases
       section's out-of-space/permission scenarios agree on what "destructive" excludes — i.e. is
       an interrupted/partial write due to disk-full ever classified as a mirror-mode-only risk, or
       could it also happen in a non-mirror sync and is that consequence addressed consistently?
       [Consistency, Spec §FR-005 vs Edge Cases]
-- [ ] CHK010 Do User Story 3's acceptance scenarios and FR-006 agree on whether the dry-run
+      — Resolved: new FR-012a explicitly scopes partial-write-on-interruption as independent of
+      mirror mode and not a "destructive" operation under FR-005; FR-005 itself now cross-
+      references FR-012a.
+- [x] CHK010 Do User Story 3's acceptance scenarios and FR-006 agree on whether the dry-run
       preview is mandatory for *every* mirror-mode run, or only the first one for a given job (the
       spec text implies "every run" — is that stated as explicitly for FR-006 as it is in the
       User Story)? [Consistency, Spec §US3 vs FR-006]
+      — Resolved: FR-006 now says explicitly "every single run — with no exception, and no
+      'remember my choice' shortcut," matching User Story 3's acceptance scenarios.
 
 ## Acceptance Criteria Quality
 
@@ -58,6 +68,10 @@ implementation gate.
       preview the user explicitly approved") stated in a way that is objectively verifiable from
       the requirements alone (i.e. does FR-006 fully guarantee SC-003, or is there a requirements
       gap between the two)? [Measurability, Spec §SC-003 vs FR-006]
+      — Partially resolved: FR-006's "every single run" fix closes the main gap, but SC-003 is
+      only *fully* guaranteed once CHK003 (preview/real-run drift) is also resolved — if the real
+      run doesn't apply the exact reviewed change-set, a user could approve one set of deletions
+      and have a different set actually occur. Left open, tracked with CHK003.
 - [ ] CHK012 Can "the user can identify what went wrong from the app's own output alone" (SC-004)
       be objectively tested against the current error-surfacing requirements (FR-012), or does it
       depend on subjective judgment of what counts as "identifiable"? [Measurability, Spec §SC-004]
