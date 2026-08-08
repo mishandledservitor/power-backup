@@ -1,4 +1,5 @@
 from rsync_sync_gui.services.rsync_runner import (
+    MACOS_VOLUME_METADATA_EXCLUDES,
     RsyncProcess,
     build_argv,
     parse_overall_progress,
@@ -25,6 +26,12 @@ def test_dry_run_always_adds_dry_run_flag():
 def test_non_dry_run_omits_dry_run_flag():
     argv = build_argv("/src", "/dst", mirror_enabled=True, dry_run=False)
     assert "--dry-run" not in argv
+
+
+def test_argv_excludes_macos_volume_metadata_dirs():
+    argv = build_argv("/src", "/dst", mirror_enabled=False)
+    for pattern in MACOS_VOLUME_METADATA_EXCLUDES:
+        assert f"--exclude={pattern}" in argv
 
 
 def test_argv_is_a_list_not_a_shell_string():

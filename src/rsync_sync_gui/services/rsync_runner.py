@@ -23,10 +23,26 @@ _ITEMIZE_CHANGE_RE = re.compile(r"^([<>c.*][fdLDS]\S{9})\s+(.+)$")
 # xfer#K = files transferred so far, to-check=N/M = N files remain out of M scanned so far.
 _PROGRESS_RE = re.compile(r"xfer#(\d+),\s*to-check=(\d+)/(\d+)")
 
+# macOS system/metadata directories that live at the root of every volume. A normal user
+# account can't read into these (rsync warns "Operation not permitted"), and there's never
+# anything worth mirroring in them, so they're always excluded rather than surfaced as noise.
+MACOS_VOLUME_METADATA_EXCLUDES = [
+    ".Spotlight-V100",
+    ".Trashes",
+    ".fseventsd",
+    ".TemporaryItems",
+    ".DocumentRevisions-V100",
+    ".PKInstallSandboxManager",
+    ".PKInstallSandboxManager-SystemSoftware",
+    ".apdisk",
+]
+
 
 def build_argv(source: str, destination: str, mirror_enabled: bool, dry_run: bool = False) -> list[str]:
     """Build an rsync argv list. Never returns a shell string."""
     argv = ["rsync", "-a", "--itemize-changes", "--stats", "--progress"]
+    for pattern in MACOS_VOLUME_METADATA_EXCLUDES:
+        argv.append(f"--exclude={pattern}")
     if mirror_enabled:
         argv.append("--delete")
     if dry_run:
