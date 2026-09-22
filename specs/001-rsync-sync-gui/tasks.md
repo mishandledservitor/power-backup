@@ -9,13 +9,9 @@ description: "Task list for feature implementation"
 
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, quickstart.md
 
-**Tests**: Included — plan.md's Project Structure explicitly defines `tests/unit/` and
-`tests/integration/`, and constitution Principle I (thin wrapper) is best enforced by unit-testing
-the rsync argv-building/validation logic in isolation from the GUI.
+**Tests**: Included — plan.md's Project Structure explicitly defines `tests/unit/` and `tests/integration/`, and constitution Principle I (thin wrapper) is best enforced by unit-testing the rsync argv-building/validation logic in isolation from the GUI.
 
-**Organization**: Tasks are grouped by user story per spec.md priorities. US1 and US3 are both
-P1; US1 (one-off sync) is sequenced first because US3 (destructive preview/confirm) extends the
-same rsync runner with a dry-run step and cannot be built before it exists.
+**Organization**: Tasks are grouped by user story per spec.md priorities. US1 and US3 are both P1; US1 (one-off sync) is sequenced first because US3 (destructive preview/confirm) extends the same rsync runner with a dry-run step and cannot be built before it exists.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -47,8 +43,7 @@ Single project, per plan.md: `src/rsync_sync_gui/`, `tests/`, `packaging/` at re
 
 ## Phase 2: Foundational (Blocking Prerequisites)
 
-**Purpose**: Core infrastructure every user story depends on — path validation, the rsync
-subprocess runner, and the entities from data-model.md
+**Purpose**: Core infrastructure every user story depends on — path validation, the rsync subprocess runner, and the entities from data-model.md
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
@@ -82,11 +77,9 @@ subprocess runner, and the entities from data-model.md
 
 ## Phase 3: User Story 1 - Run a one-off folder sync (Priority: P1) 🎯 MVP
 
-**Goal**: User picks a source and destination folder and runs a non-destructive sync, with live
-progress and a clear success/error result.
+**Goal**: User picks a source and destination folder and runs a non-destructive sync, with live progress and a clear success/error result.
 
-**Independent Test**: Select a source and destination folder on two different drives, run the
-sync, and confirm the destination now contains the source's files (quickstart.md scenario 1).
+**Independent Test**: Select a source and destination folder on two different drives, run the sync, and confirm the destination now contains the source's files (quickstart.md scenario 1).
 
 ### Tests for User Story 1
 
@@ -120,19 +113,15 @@ sync, and confirm the destination now contains the source's files (quickstart.md
       `SyncRun.status` to `canceled` (FR-013) — distinct from and in addition to T017's app-quit
       handling (depends on T008, T014, T015)
 
-**Checkpoint**: User Story 1 fully functional — a user can pick two folders and run a real,
-non-destructive sync with live feedback.
+**Checkpoint**: User Story 1 fully functional — a user can pick two folders and run a real, non-destructive sync with live feedback.
 
 ---
 
 ## Phase 4: User Story 3 - Preview and confirm before a destructive sync (Priority: P1)
 
-**Goal**: When mirror mode is enabled, the user always sees an accurate dry-run preview of
-additions/changes/removals and must explicitly confirm before anything destructive happens.
+**Goal**: When mirror mode is enabled, the user always sees an accurate dry-run preview of additions/changes/removals and must explicitly confirm before anything destructive happens.
 
-**Independent Test**: Enable mirror mode on a pair where the destination has extra files, confirm
-the dry-run preview lists exactly those files as removals, and verify nothing is deleted until
-explicitly confirmed (quickstart.md scenario 4).
+**Independent Test**: Enable mirror mode on a pair where the destination has extra files, confirm the dry-run preview lists exactly those files as removals, and verify nothing is deleted until explicitly confirmed (quickstart.md scenario 4).
 
 ### Tests for User Story 3
 
@@ -162,18 +151,15 @@ explicitly confirmed (quickstart.md scenario 4).
       action reuses `progress_view.py` (T014) for live output, so the destructive run gets the
       same observability as a normal sync
 
-**Checkpoint**: User Stories 1 and 3 both work — the app's core safety guarantee (constitution
-Principle II) is enforced for every destructive sync.
+**Checkpoint**: User Stories 1 and 3 both work — the app's core safety guarantee (constitution Principle II) is enforced for every destructive sync.
 
 ---
 
 ## Phase 5: User Story 2 - Save and re-run a sync job (Priority: P2)
 
-**Goal**: User saves a source/destination/options combination as a named job that persists across
-app restarts and can be re-run, renamed, or deleted.
+**Goal**: User saves a source/destination/options combination as a named job that persists across app restarts and can be re-run, renamed, or deleted.
 
-**Independent Test**: Create a job, close and reopen the app, and confirm the saved job still
-appears and runs correctly against the same folders (quickstart.md scenario 2).
+**Independent Test**: Create a job, close and reopen the app, and confirm the saved job still appears and runs correctly against the same folders (quickstart.md scenario 2).
 
 ### Tests for User Story 2
 
@@ -199,8 +185,7 @@ appears and runs correctly against the same folders (quickstart.md scenario 2).
       non-mirror jobs, T024/T025 for mirror-enabled jobs) so a saved job behaves identically to an
       ad-hoc pair with the same options
 
-**Checkpoint**: All three user stories independently functional — one-off sync, safe destructive
-sync, and saved/reusable jobs.
+**Checkpoint**: All three user stories independently functional — one-off sync, safe destructive sync, and saved/reusable jobs.
 
 ---
 
@@ -226,20 +211,15 @@ sync, and saved/reusable jobs.
 - **Setup (Phase 1)**: No dependencies — can start immediately
 - **Foundational (Phase 2)**: Depends on Setup completion — BLOCKS all user stories
 - **User Story 1 (Phase 3)**: Depends on Foundational only
-- **User Story 3 (Phase 4)**: Depends on Foundational, and specifically on User Story 1's
-  `rsync_runner.py`/`progress_view.py` (T008, T014) being in place — not independent of US1 at the
-  code level, though it is independently *testable* once built
-- **User Story 2 (Phase 5)**: Depends on Foundational only for its own logic (job persistence,
-  availability check); its "Run" action (T031) reuses US1/US3 sync flows once they exist
+- **User Story 3 (Phase 4)**: Depends on Foundational, and specifically on User Story 1's `rsync_runner.py`/`progress_view.py` (T008, T014) being in place — not independent of US1 at the code level, though it is independently *testable* once built
+- **User Story 2 (Phase 5)**: Depends on Foundational only for its own logic (job persistence, availability check); its "Run" action (T031) reuses US1/US3 sync flows once they exist
 - **Polish (Phase 6)**: Depends on all three user stories being complete
 
 ### Parallel Opportunities
 
 - T003 and T004 (Setup) can run in parallel
-- T006 and T007 (Foundational models/validation) can run in parallel; T005 depends on T007 (reuses
-  its nested/equal check); T008 depends on T005/T006
-- Within US1: T010, T011, T012 (tests) can run in parallel; T013/T014 can be worked in parallel
-  before T015 wires them together
+- T006 and T007 (Foundational models/validation) can run in parallel; T005 depends on T007 (reuses its nested/equal check); T008 depends on T005/T006
+- Within US1: T010, T011, T012 (tests) can run in parallel; T013/T014 can be worked in parallel before T015 wires them together
 - Within US3: T019, T020, T021 (tests) can run in parallel
 - Within US2: T026, T027 (tests) can run in parallel
 - T032 and T034 (Polish) can run in parallel
@@ -278,7 +258,6 @@ Task: "Integration test for end-to-end non-destructive sync in tests/integration
 
 ## Notes
 
-- Do not expose mirror mode in the UI until Phase 4 (US3) is complete — shipping US1 alone with a
-  mirror toggle but no preview/confirm would violate constitution Principle II.
+- Do not expose mirror mode in the UI until Phase 4 (US3) is complete — shipping US1 alone with a mirror toggle but no preview/confirm would violate constitution Principle II.
 - [P] tasks touch different files with no unmet dependencies.
 - Commit after each task or logical group, per this repo's standing rule to commit every round.

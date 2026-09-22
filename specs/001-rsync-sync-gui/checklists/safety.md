@@ -1,15 +1,10 @@
 # Safety & Data-Integrity Checklist: Rsync Folder Sync GUI
 
-**Purpose**: Validate that the spec's requirements around destructive operations (mirror mode,
-deletion, cross-drive sync) are complete, unambiguous, and consistent enough to implement safely,
-before `/speckit-implement` — this is the domain where constitution Principle II (Safety by
-Default) makes an unclear requirement expensive to get wrong.
+**Purpose**: Validate that the spec's requirements around destructive operations (mirror mode, deletion, cross-drive sync) are complete, unambiguous, and consistent enough to implement safely, before `/speckit-implement` — this is the domain where constitution Principle II (Safety by Default) makes an unclear requirement expensive to get wrong.
 **Created**: 2026-08-08
 **Feature**: [spec.md](../spec.md)
 
-**Note**: Generated with default focus (no explicit user request given): highest-risk domain =
-destructive-sync/data-integrity requirements. Depth: standard. Audience: reviewer, as a pre-
-implementation gate.
+**Note**: Generated with default focus (no explicit user request given): highest-risk domain = destructive-sync/data-integrity requirements. Depth: standard. Audience: reviewer, as a pre- implementation gate.
 
 ## Requirement Completeness
 
@@ -100,7 +95,5 @@ implementation gate.
 
 ## Notes
 
-- Highest-priority items for review before implementation: CHK001, CHK002, CHK009, CHK010, CHK011
-  — these bear most directly on constitution Principle II (Safety by Default).
-- Check items off as reviewed: `[x]`. Where a gap is accepted as out-of-scope for v1, note that
-  inline rather than silently checking it off.
+- Highest-priority items for review before implementation: CHK001, CHK002, CHK009, CHK010, CHK011 — these bear most directly on constitution Principle II (Safety by Default).
+- Check items off as reviewed: `[x]`. Where a gap is accepted as out-of-scope for v1, note that inline rather than silently checking it off.

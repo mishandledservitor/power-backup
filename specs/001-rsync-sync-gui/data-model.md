@@ -16,19 +16,14 @@ A saved, named sync configuration. Persisted as one entry in the jobs JSON store
 
 **Validation rules** (enforced before save and before each run):
 - `source` and `destination` must both be non-empty absolute paths.
-- `source` and `destination` must not be equal, and neither may be an ancestor of the other
-  (FR-011).
+- `source` and `destination` must not be equal, and neither may be an ancestor of the other (FR-011).
 - `name` must be unique (case-insensitive) among currently saved jobs (FR-009).
 
-**Availability (derived, not stored)**: at load/display time, a job's `source`/`destination` are
-checked for existence; a job whose folder is currently missing is flagged unavailable in the UI
-(FR-010) but remains in the saved list untouched.
+**Availability (derived, not stored)**: at load/display time, a job's `source`/`destination` are checked for existence; a job whose folder is currently missing is flagged unavailable in the UI (FR-010) but remains in the saved list untouched.
 
 ## Sync Run
 
-A single execution, either from a saved Job or an ad-hoc one-off source/destination pair. Not
-persisted across app restarts — it exists only for the duration of showing progress/results to
-the user.
+A single execution, either from a saved Job or an ad-hoc one-off source/destination pair. Not persisted across app restarts — it exists only for the duration of showing progress/results to the user.
 
 | Field | Type | Notes |
 |---|---|---|
@@ -56,5 +51,4 @@ running → failed                     (exit_code != 0)
 running → canceled                   (user cancels an in-progress run; process terminated)
 ```
 
-No transition skips `previewing`/`awaiting_confirmation` when `mirror_enabled` is true — this is
-the mechanical enforcement of constitution Principle II / spec FR-006.
+No transition skips `previewing`/`awaiting_confirmation` when `mirror_enabled` is true — this is the mechanical enforcement of constitution Principle II / spec FR-006.

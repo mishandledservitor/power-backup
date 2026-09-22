@@ -31,6 +31,4 @@
 
 ## Notes
 
-All items pass. No clarification markers were needed — the feature description combined with the
-project constitution (macOS-only, safety-by-default around destructive rsync flags) provided
-enough context to make reasonable, documented assumptions. Ready for `/speckit-plan`.
+All items pass. No clarification markers were needed — the feature description combined with the project constitution (macOS-only, safety-by-default around destructive rsync flags) provided enough context to make reasonable, documented assumptions. Ready for `/speckit-plan`.

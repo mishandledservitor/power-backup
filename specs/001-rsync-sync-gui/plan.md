@@ -6,37 +6,28 @@
 
 ## Summary
 
-A double-clickable macOS desktop app (PySide6/Qt GUI over the system `rsync` binary) that lets a
-user pick source/destination folders, run a sync with live progress, save recurring folder pairs
-as named jobs, and — for any destructive/mirror sync — always shows an `rsync --dry-run` preview
-requiring explicit confirmation before anything is deleted.
+A double-clickable macOS desktop app (PySide6/Qt GUI over the system `rsync` binary) that lets a user pick source/destination folders, run a sync with live progress, save recurring folder pairs as named jobs, and — for any destructive/mirror sync — always shows an `rsync --dry-run` preview requiring explicit confirmation before anything is deleted.
 
 ## Technical Context
 
 **Language/Version**: Python 3.11+ (matched to the packaging tool's supported range)
 
-**Primary Dependencies**: PySide6 (Qt6 bindings) for the GUI; system `rsync` binary invoked via
-`subprocess` (argument list, not shell string); py2app or PyInstaller for `.app` packaging
+**Primary Dependencies**: PySide6 (Qt6 bindings) for the GUI; system `rsync` binary invoked via `subprocess` (argument list, not shell string); py2app or PyInstaller for `.app` packaging
 
 **Storage**: Local JSON file under the user's app-support directory (e.g.
 `~/Library/Application Support/RsyncSyncGui/jobs.json`) for saved jobs — no database needed
 
-**Testing**: pytest for unit tests (argument-building, path-validation logic); manual/quickstart
-validation for GUI flows (Qt GUI test automation is out of scope for v1 given the small surface)
+**Testing**: pytest for unit tests (argument-building, path-validation logic); manual/quickstart validation for GUI flows (Qt GUI test automation is out of scope for v1 given the small surface)
 
 **Target Platform**: macOS (current and previous major OS version), local filesystem paths only
 
 **Project Type**: Desktop application (single project)
 
-**Performance Goals**: UI remains responsive (no frozen window) while a sync runs; progress
-updates at least once per second during an active transfer
+**Performance Goals**: UI remains responsive (no frozen window) while a sync runs; progress updates at least once per second during an active transfer
 
-**Constraints**: No terminal interaction required for normal use; destructive operations must
-always be preview-then-confirm (constitution Principle II); sync must run off the Qt main thread
-so the UI doesn't block
+**Constraints**: No terminal interaction required for normal use; destructive operations must always be preview-then-confirm (constitution Principle II); sync must run off the Qt main thread so the UI doesn't block
 
-**Scale/Scope**: Single user, single machine; expected job count in the tens, not hundreds;
-folder trees of ordinary personal/backup size (rsync itself handles the scale, not the app)
+**Scale/Scope**: Single user, single machine; expected job count in the tens, not hundreds; folder trees of ordinary personal/backup size (rsync itself handles the scale, not the app)
 
 ## Constitution Check
 
@@ -65,9 +56,7 @@ specs/001-rsync-sync-gui/
 └── tasks.md             # Phase 2 output (/speckit-tasks command - NOT created by /speckit-plan)
 ```
 
-No `contracts/` directory: this feature exposes no external API, CLI, or network interface — its
-only "contract" is the rsync command-line invocation itself, which is documented in
-`data-model.md` and `quickstart.md` instead.
+No `contracts/` directory: this feature exposes no external API, CLI, or network interface — its only "contract" is the rsync command-line invocation itself, which is documented in `data-model.md` and `quickstart.md` instead.
 
 ### Source Code (repository root)
 
@@ -99,11 +88,7 @@ packaging/
 └── setup.py                  # py2app (or equivalent PyInstaller spec) build config
 ```
 
-**Structure Decision**: Single desktop-app project (Option 1 pattern) under `src/rsync_sync_gui/`,
-split into `models/` (data), `services/` (rsync invocation, persistence, validation — all
-independently unit-testable without Qt), and `ui/` (PySide6 widgets). This keeps the rsync/
-subprocess logic testable in isolation from the GUI, per Principle I and the constitution's
-Development Workflow expectations.
+**Structure Decision**: Single desktop-app project (Option 1 pattern) under `src/rsync_sync_gui/`, split into `models/` (data), `services/` (rsync invocation, persistence, validation — all independently unit-testable without Qt), and `ui/` (PySide6 widgets). This keeps the rsync/ subprocess logic testable in isolation from the GUI, per Principle I and the constitution's Development Workflow expectations.
 
 ## Complexity Tracking
 
