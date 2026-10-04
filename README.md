@@ -1,6 +1,6 @@
 # Rsync Sync GUI
 
-A double-clickable macOS app for syncing folders across drives, backed by `rsync`.
+A double-clickable macOS app for syncing folders across drives, backed by `rsync`. The repo is called power-backup; the app it builds is Rsync Sync GUI.
 
 Agent-facing detail — conventions, current status, gotchas — lives in [`CLAUDE.md`](CLAUDE.md).
 Feature spec, plan, and tasks live in [`specs/001-rsync-sync-gui/`](specs/001-rsync-sync-gui/).
@@ -38,3 +38,7 @@ fallback (see `research.md` in the feature spec directory):
 
 See [`specs/001-rsync-sync-gui/quickstart.md`](specs/001-rsync-sync-gui/quickstart.md) for the
 full manual validation scenarios.
+
+## Licence
+
+MIT. See [`LICENSE`](LICENSE).
